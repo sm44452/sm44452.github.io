@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Projects on Shivani Madhav</title>
+    <link>/project/</link>
+    <description>Recent content in Projects on Shivani Madhav</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-US</language><atom:link href="/project/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Project 1: Exploratory Data Analysis</title>
+      <link>/project/project1/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/project/project1/</guid>
+      <description>Data Wrangling and Data Exploration  Introduction ### Intro Packages and Data library(dplyr) library(tidyr) library(ggplot2) library(tibble) library(readr) Sanitation &amp;lt;- read_csv(&amp;quot;/stor/home/sm44452/Project/Sanitation.csv&amp;quot;) Country_information &amp;lt;- read_csv(&amp;quot;/stor/home/sm44452/Project/Country_information.csv&amp;quot;)  The data sets I have chosen for this project contains various information for countries in the year of 2017 relating to access to sanitized water and country statistics. The first data set called Country_information has 4 variables: Country, Region, Surface Area(km), and Population(in thousands). The data was acquired online from a website called Kaggle.</description>
+    </item>
+    
+    <item>
+      <title>Project 2: Modeling, Testing, and Predicting</title>
+      <link>/project/project2/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/project/project2/</guid>
+      <description>Shivani Madhav sm44452
+Introduction  0. Introduce your dataset and each of your variables (or just your main variables if you have lots) in a paragraph. What are they measuring? How many observations?  winequality &amp;lt;- read_csv(&amp;#39;/stor/home/sm44452/Project/winequality.csv&amp;#39;) winequalityN &amp;lt;- read_csv(&amp;#39;/stor/home/sm44452/Project/winequalityN.csv&amp;#39;) library(lmtest) library(sandwich) library(plotROC) library(tidyverse) library(MASS) library(glmnet) library(ggplot2) winequality %&amp;gt;% na.omit() ## # A tibble: 6,469 x 9 ## type volatile_acidity citric_acid residual_sugar chlorides density pH sulphates alcohol ## &amp;lt;chr&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; ## 1 white 0.</description>
+    </item>
+    
+  </channel>
+</rss>

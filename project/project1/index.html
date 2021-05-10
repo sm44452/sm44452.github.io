@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Shivani Madhav" />
+    
+    <link rel="shortcut icon" type="image/x-icon" href="../../img/favicon.ico">
+    <title>Project 1: Exploratory Data Analysis</title>
+    <meta name="generator" content="Hugo 0.83.1" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="../../css/main.css" />
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,200bold,400old" />
+    
+    <!--[if lt IE 9]>
+			<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+			<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+		<![endif]-->
+
+    
+  </head>
+
+  <body>
+    <div id="wrap">
+      
+      <nav class="navbar navbar-default">
+  <div class="container">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="../../"><i class="fa fa-home"></i></a>
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <div class="navbar-collapse collapse" id="navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+        <li><a href="../../post/">BLOG</a></li>
+        
+        <li><a href="../../projects/">PROJECTS</a></li>
+        
+        <li><a href="../../resume/">RESUME</a></li>
+        
+      
+      </ul>
+    </div>
+  </div>
+</nav>
+
+      <div class="container">
+        <div class="blog-post">
+          <h3>
+            <strong><a href="../../project/project1/">Project 1: Exploratory Data Analysis</a></strong>
+          </h3>
+        </div>
+ 
+<div class="blog-title">
+          <h4>
+         January 1, 0001 
+            &nbsp;&nbsp;
+            
+          </h4>
+        </div>
+
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <div class="blogpost">
+              
+
+
+<div id="data-wrangling-and-data-exploration" class="section level2">
+<h2>Data Wrangling and Data Exploration</h2>
+</div>
+<div id="introduction" class="section level2">
+<h2>Introduction</h2>
+<pre class="r"><code>### Intro Packages and Data
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(tibble)
+library(readr)
+
+Sanitation &lt;- read_csv(&quot;/stor/home/sm44452/Project/Sanitation.csv&quot;)
+Country_information &lt;- read_csv(&quot;/stor/home/sm44452/Project/Country_information.csv&quot;)</code></pre>
+<ul>
+<li>The data sets I have chosen for this project contains various information for countries in the year of 2017 relating to access to sanitized water and country statistics. The first data set called Country_information has 4 variables: Country, Region, Surface Area(km), and Population(in thousands). The data was acquired online from a website called Kaggle. The second data set called Sanitation has 2 variables: Country and Percent Access to Sanitized Water. I got this information from gapminder.com. The reason I chose this data is because I was interested in seeing whether the actual geography and population of a country played a role in the access people have to clean water. Many times even though a country is well developed with a large population the actual population that has sanitized water readily available can be quite low so understanding these different relationships would be interesting to understand. I do expect that with an increase in population could cause an increase in sanitized water and I do think well developed regions will have more access. However, I am not sure if there will be any correlation between surface area and access, but I do hypothesize as surface area increases that access to clean water may decrease in that country.</li>
+</ul>
+</div>
+<div id="joiningmerging" class="section level2">
+<h2>Joining/Merging</h2>
+<pre class="r"><code>### Joined Data
+Joined_Project &lt;- Country_information %&gt;% left_join(Sanitation)
+Joined_Project %&gt;% na.omit()</code></pre>
+<pre><code>## # A tibble: 170 x 5
+##    country             Region         SurfaceArea `Population(thousands)` access
+##    &lt;chr&gt;               &lt;chr&gt;                &lt;dbl&gt;                   &lt;dbl&gt;  &lt;dbl&gt;
+##  1 Afghanistan         SouthernAsia        652864                   35530   0.43
+##  2 Albania             SouthernEurope       28748                    2930   0.98
+##  3 Algeria             NorthernAfrica     2381741                   41318   0.88
+##  4 Andorra             SouthernEurope         468                      77   1   
+##  5 Angola              MiddleAfrica       1246700                   29784   0.5 
+##  6 Antigua and Barbuda Caribbean              442                     102   0.88
+##  7 Armenia             WesternAsia          29743                    2930   0.94
+##  8 Australia           Oceania            7692060                   24451   1   
+##  9 Austria             WesternEurope        83871                    8736   1   
+## 10 Azerbaijan          WesternAsia          86600                    9828   0.93
+## # … with 160 more rows</code></pre>
+<ul>
+<li>My data was already tidy so I will reshape it elsewhere. I chose to do a left join function because the common variable was country. It made sense to just combine all the data by doing a left join to keep that variable in tact in both sets and then add the extra access to sanitized water column on the side. To begin with, the Sanitation data set had 355 observations with 2 variables and the Country info data had 720 observations with 5 variables. I also then used the N/A emit function to make sure any rows with out values were excluded and this included 10 rows. Now there are 170 rows with 5 columns.</li>
+</ul>
+</div>
+<div id="wrangling" class="section level2">
+<h2>Wrangling</h2>
+<pre class="r"><code>### Filter, Select, and Arrange Function
+Joined_Project %&gt;% filter(between(access, 0.9, 1))</code></pre>
+<pre><code>## # A tibble: 88 x 5
+##    country    Region         SurfaceArea `Population(thousands)` access
+##    &lt;chr&gt;      &lt;chr&gt;                &lt;dbl&gt;                   &lt;dbl&gt;  &lt;dbl&gt;
+##  1 Albania    SouthernEurope       28748                    2930   0.98
+##  2 Andorra    SouthernEurope         468                      77   1   
+##  3 Armenia    WesternAsia          29743                    2930   0.94
+##  4 Australia  Oceania            7692060                   24451   1   
+##  5 Austria    WesternEurope        83871                    8736   1   
+##  6 Azerbaijan WesternAsia          86600                    9828   0.93
+##  7 Bahamas    Caribbean            13940                     395   0.95
+##  8 Bahrain    WesternAsia            771                    1493   1   
+##  9 Barbados   Caribbean              431                     286   0.97
+## 10 Belarus    EasternEurope       207600                    9468   0.98
+## # … with 78 more rows</code></pre>
+<pre class="r"><code>Joined_Project %&gt;% filter(Region == &quot;WesternAsia&quot;) %&gt;% select(access, 
+    Region, country) %&gt;% arrange(desc(access))</code></pre>
+<pre><code>## # A tibble: 17 x 3
+##    access Region      country             
+##     &lt;dbl&gt; &lt;chr&gt;       &lt;chr&gt;               
+##  1   1    WesternAsia Bahrain             
+##  2   1    WesternAsia Israel              
+##  3   1    WesternAsia Kuwait              
+##  4   1    WesternAsia Malaysia            
+##  5   1    WesternAsia Oman                
+##  6   1    WesternAsia Qatar               
+##  7   1    WesternAsia Saudi Arabia        
+##  8   0.99 WesternAsia Cyprus              
+##  9   0.99 WesternAsia Lebanon             
+## 10   0.99 WesternAsia United Arab Emirates
+## 11   0.97 WesternAsia Jordan              
+## 12   0.97 WesternAsia Tajikistan          
+## 13   0.97 WesternAsia Turkey              
+## 14   0.94 WesternAsia Armenia             
+## 15   0.94 WesternAsia Iraq                
+## 16   0.93 WesternAsia Azerbaijan          
+## 17   0.9  WesternAsia Georgia</code></pre>
+<ul>
+<li>First I decided to filter the data to see how many countries had high access to water (ranging between 90-100%). From the 180 total observations, 88 fell in this category. After observing the data, the Western Asia region seemed to have the highest number of countries according to the filter above. To view the corresponding countries that associated with that I did another filter just with the Western Asia region. Then I used the select function to specifically find corresponding data for only the access, region, and country. Next using the arrange function I ordered the percent access in descending order to better see best to worst access in the top countries. This allowed me to better view exactly which countries in Western Asia seem to have the most access to clean water and this included: Bahrain, Israel, Kuwait, Malaysia, Oman, Qatar, Saudi Arabia.</li>
+</ul>
+<pre class="r"><code>### Select Function and Correlation Matrix
+cormat &lt;- Joined_Project %&gt;% na.omit() %&gt;% select_if(is.numeric) %&gt;% 
+    cor()
+head(cormat)</code></pre>
+<pre><code>##                       SurfaceArea Population(thousands)      access
+## SurfaceArea             1.0000000            0.52789336  0.02933050
+## Population(thousands)   0.5278934            1.00000000 -0.03433209
+## access                  0.0293305           -0.03433209  1.00000000</code></pre>
+<ul>
+<li>In this case, the select function was used. This allowed me to create the correlation matrix of all of the numeric values in the joined data. Based off the matrix, it can be seen that surface area and access have barely any correlation. However, surface area and population are positively correlated a bit, meaning if the surface area increases there is an increase in population. Lastly there seems to be no correlation between access and population. This is surprising as I would have expected a strong positive correlation. However, I will continue investigating the data to see if there are other trend present.</li>
+</ul>
+<pre class="r"><code>### Mutate Function
+Joined_Project %&gt;% mutate(access_pctile = ntile(access, 100)) %&gt;% 
+    na.omit()</code></pre>
+<pre><code>## # A tibble: 170 x 6
+##    country       Region     SurfaceArea `Population(thousa… access access_pctile
+##    &lt;chr&gt;         &lt;chr&gt;            &lt;dbl&gt;               &lt;dbl&gt;  &lt;dbl&gt;         &lt;int&gt;
+##  1 Afghanistan   SouthernA…      652864               35530   0.43            16
+##  2 Albania       SouthernE…       28748                2930   0.98            57
+##  3 Algeria       NorthernA…     2381741               41318   0.88            38
+##  4 Andorra       SouthernE…         468                  77   1               74
+##  5 Angola        MiddleAfr…     1246700               29784   0.5             20
+##  6 Antigua and … Caribbean          442                 102   0.88            38
+##  7 Armenia       WesternAs…       29743                2930   0.94            49
+##  8 Australia     Oceania        7692060               24451   1               75
+##  9 Austria       WesternEu…       83871                8736   1               76
+## 10 Azerbaijan    WesternAs…       86600                9828   0.93            46
+## # … with 160 more rows</code></pre>
+<ul>
+<li>The mutate function was used and a new variable called access_pctile was created. Before the access data was listed as a decimal, but this made it hard to see how good countries access to sanitized water was compared to another. The creation of the new variable allows us to easily compare each countries percentile when it comes to access. From this I could see that many other well developed countries like Japan,
+Monaco, and New Zealand also had a high percentile when it came to access compared to other countries, proving part of my hypothesis correct.</li>
+</ul>
+<pre class="r"><code>## Pivot Wider
+Joined_Project %&gt;% select(-SurfaceArea, -`Population(thousands)`) %&gt;% 
+    pivot_wider(names_from = &quot;Region&quot;, values_from = &quot;access&quot;) %&gt;% 
+    summarize_if(is.numeric, mean, na.rm = T)</code></pre>
+<pre><code>## # A tibble: 1 x 22
+##   SouthernAsia SouthernEurope NorthernAfrica MiddleAfrica Caribbean SouthAmerica
+##          &lt;dbl&gt;          &lt;dbl&gt;          &lt;dbl&gt;        &lt;dbl&gt;     &lt;dbl&gt;        &lt;dbl&gt;
+## 1        0.694          0.935          0.832        0.391     0.849        0.892
+## # … with 16 more variables: WesternAsia &lt;dbl&gt;, Oceania &lt;dbl&gt;,
+## #   WesternEurope &lt;dbl&gt;, EasternEurope &lt;dbl&gt;, CentralAmerica &lt;dbl&gt;,
+## #   WesternAfrica &lt;dbl&gt;, NorthernAmerica &lt;dbl&gt;, SouthernAfrica &lt;dbl&gt;,
+## #   `South-easternAsia` &lt;dbl&gt;, EasternAfrica &lt;dbl&gt;, EasternAsia &lt;dbl&gt;,
+## #   NorthernEurope &lt;dbl&gt;, Melanesia &lt;dbl&gt;, CentralAsia &lt;dbl&gt;, Micronesia &lt;dbl&gt;,
+## #   Polynesia &lt;dbl&gt;</code></pre>
+<p>-I wanted to then see if different regions showed specific trends in terms of access. By performing the Pivot function on the data and viewing it wider I am able to see the mean access to sanitized water in each region without the other 3 variables. From this, Oceania, Central Asia, and Western Europe show some of the highest means. I did not perform a pivot longer function as this would not be an efficient way to view the data.</p>
+<pre class="r"><code>### Summary All Numeric variables
+Joined_Project %&gt;% summarize(SurfaceArea) %&gt;% arrange(desc(SurfaceArea)) %&gt;% 
+    na.omit()</code></pre>
+<pre><code>## # A tibble: 180 x 1
+##    SurfaceArea
+##          &lt;dbl&gt;
+##  1    17098246
+##  2     9984670
+##  3     9833517
+##  4     9600000
+##  5     8515767
+##  6     7692060
+##  7     3287263
+##  8     2780400
+##  9     2724902
+## 10     2381741
+## # … with 170 more rows</code></pre>
+<pre class="r"><code>Joined_Project %&gt;% summarize(`Population(thousands)`) %&gt;% arrange(desc(`Population(thousands)`)) %&gt;% 
+    na.omit()</code></pre>
+<pre><code>## # A tibble: 180 x 1
+##    `Population(thousands)`
+##                      &lt;dbl&gt;
+##  1                 1409517
+##  2                 1339180
+##  3                  324460
+##  4                  263991
+##  5                  209288
+##  6                  197016
+##  7                  190886
+##  8                  164670
+##  9                  143990
+## 10                  129163
+## # … with 170 more rows</code></pre>
+<pre class="r"><code>Joined_Project %&gt;% summarize(access) %&gt;% arrange(desc(access)) %&gt;% 
+    na.omit()</code></pre>
+<pre><code>## # A tibble: 170 x 1
+##    access
+##     &lt;dbl&gt;
+##  1      1
+##  2      1
+##  3      1
+##  4      1
+##  5      1
+##  6      1
+##  7      1
+##  8      1
+##  9      1
+## 10      1
+## # … with 160 more rows</code></pre>
+<p>-I wanted to see an overview and summary of all the numeric variables by viewing them in descending view just to get a big picture idea. Below I will go in depth for the numeric variables in terms of the categories: Region and Country.</p>
+<pre class="r"><code>### Summarize: Group By Region
+Joined_Project %&gt;% group_by(Region) %&gt;% summarize_if(is.numeric, 
+    mean, na.rm = T)</code></pre>
+<pre><code>## # A tibble: 22 x 4
+##    Region         SurfaceArea `Population(thousands)` access
+##    &lt;chr&gt;                &lt;dbl&gt;                   &lt;dbl&gt;  &lt;dbl&gt;
+##  1 Caribbean           21833                   3846.   0.849
+##  2 CentralAmerica     310820.                 22165.   0.834
+##  3 CentralAsia        875008                  26191.   0.99 
+##  4 EasternAfrica      311401.                 22262.   0.431
+##  5 EasternAsia       2896242.                386453.   0.86 
+##  6 EasternEurope     2088038.                 32045.   0.948
+##  7 Melanesia          130549.                  2511    0.44 
+##  8 Micronesia            424.                    60.5  0.772
+##  9 MiddleAfrica       533502.                 10269.   0.391
+## 10 NorthernAfrica     945000                  38842.   0.832
+## # … with 12 more rows</code></pre>
+<pre class="r"><code>Joined_Project %&gt;% group_by(Region) %&gt;% summarize_if(is.numeric, 
+    sd, na.rm = T)</code></pre>
+<pre><code>## # A tibble: 22 x 4
+##    Region         SurfaceArea `Population(thousands)`  access
+##    &lt;chr&gt;                &lt;dbl&gt;                   &lt;dbl&gt;   &lt;dbl&gt;
+##  1 Caribbean           34623.                  5066.  0.192  
+##  2 CentralAmerica     669399.                 43499.  0.103  
+##  3 CentralAsia       1041631.                 26248.  0.00816
+##  4 EasternAfrica      353229.                 27460.  0.288  
+##  5 EasternAsia       4516572.                684507.  0.193  
+##  6 EasternEurope     5631412.                 44255.  0.0611 
+##  7 Melanesia          221635.                  3835.  0.354  
+##  8 Micronesia            280.                    42.8 0.204  
+##  9 MiddleAfrica       497087.                 11334.  0.192  
+## 10 NorthernAfrica     933205.                 32452.  0.230  
+## # … with 12 more rows</code></pre>
+<pre class="r"><code>Joined_Project %&gt;% group_by(Region) %&gt;% summarize_if(is.numeric, 
+    var, na.rm = T)</code></pre>
+<pre><code>## # A tibble: 22 x 4
+##    Region         SurfaceArea `Population(thousands)`    access
+##    &lt;chr&gt;                &lt;dbl&gt;                   &lt;dbl&gt;     &lt;dbl&gt;
+##  1 Caribbean          1.20e 9               25668157. 0.0367   
+##  2 CentralAmerica     4.48e11             1892164103. 0.0105   
+##  3 CentralAsia        1.08e12              688936196. 0.0000667
+##  4 EasternAfrica      1.25e11              754067373. 0.0830   
+##  5 EasternAsia        2.04e13           468549924049. 0.0374   
+##  6 EasternEurope      3.17e13             1958498517. 0.00374  
+##  7 Melanesia          4.91e10               14709617. 0.125    
+##  8 Micronesia         7.85e 4                   1834. 0.0415   
+##  9 MiddleAfrica       2.47e11              128449362. 0.0369   
+## 10 NorthernAfrica     8.71e11             1053107234. 0.0530   
+## # … with 12 more rows</code></pre>
+<pre class="r"><code>Joined_Project %&gt;% group_by(Region) %&gt;% summarize_if(is.numeric, 
+    min, na.rm = T)</code></pre>
+<pre><code>## # A tibble: 22 x 4
+##    Region         SurfaceArea `Population(thousands)` access
+##    &lt;chr&gt;                &lt;dbl&gt;                   &lt;dbl&gt;  &lt;dbl&gt;
+##  1 Caribbean              345                      74   0.35
+##  2 CentralAmerica       21041                     375   0.65
+##  3 CentralAsia         199949                    5758   0.98
+##  4 EasternAfrica          457                      95   0.07
+##  5 EasternAsia          42921                    3076   0.59
+##  6 EasternEurope        49035                    5448   0.84
+##  7 Melanesia            12189                     276   0.13
+##  8 Micronesia              21                      11   0.48
+##  9 MiddleAfrica           964                     204   0.08
+## 10 NorthernAfrica         -99                    6375   0.37
+## # … with 12 more rows</code></pre>
+<pre class="r"><code>Joined_Project %&gt;% group_by(Region) %&gt;% summarize_if(is.numeric, 
+    max, na.rm = T)</code></pre>
+<pre><code>## # A tibble: 22 x 4
+##    Region         SurfaceArea `Population(thousands)` access
+##    &lt;chr&gt;                &lt;dbl&gt;                   &lt;dbl&gt;  &lt;dbl&gt;
+##  1 Caribbean           109884                   11485   0.97
+##  2 CentralAmerica     1964375                  129163   0.98
+##  3 CentralAsia        2724902                   69038   1   
+##  4 EasternAfrica      1104300                  104957   1   
+##  5 EasternAsia        9600000                 1409517   1   
+##  6 EasternEurope     17098246                  143990   0.99
+##  7 Melanesia           462840                    8251   0.95
+##  8 Micronesia             726                     116   1   
+##  9 MiddleAfrica       1284000                   29784   0.66
+## 10 NorthernAfrica     2381741                   97553   1   
+## # … with 12 more rows</code></pre>
+<p>-I began to perform summary stats and grouped them by region. I used all 5 different functions within summarize in order to find more interesting information. This allows me to prove part of my hypothesis correct, because as expected less well developed regions such as Western Africa, Melanesia, and Middle Africa show the least access to sanitation. I found it interesting that Southern Africa and North America had some of the biggest standard deviations showing that countries in this region have very different values in terms of access to water.</p>
+<pre class="r"><code>### Summarize: Group By Country
+Joined_Project %&gt;% group_by(country) %&gt;% summarize_if(is.numeric, 
+    mean, na.rm = T) %&gt;% arrange(desc(`Population(thousands)`)) %&gt;% 
+    na.omit()</code></pre>
+<pre><code>## # A tibble: 170 x 4
+##    country    SurfaceArea `Population(thousands)` access
+##    &lt;chr&gt;            &lt;dbl&gt;                   &lt;dbl&gt;  &lt;dbl&gt;
+##  1 China          9600000                 1409517   0.85
+##  2 India          3287263                 1339180   0.6 
+##  3 Indonesia      1910931                  263991   0.73
+##  4 Brazil         8515767                  209288   0.88
+##  5 Pakistan        796095                  197016   0.6 
+##  6 Nigeria         923768                  190886   0.39
+##  7 Bangladesh      147570                  164670   0.48
+##  8 Mexico         1964375                  129163   0.91
+##  9 Japan           377930                  127484   1   
+## 10 Ethiopia       1104300                  104957   0.07
+## # … with 160 more rows</code></pre>
+<p>-I then ran the only relevant summary statistic after grouping by country. This gave me the mean percent to access for each country. Overall from all the summary statistics, I can tell that even when the countries have small populations for instant Andorra, they can still have extremely high access as I had predicted. However, that is not always the case because highly populated countries like the Germany have high access too.
+## Visualization</p>
+<pre class="r"><code>### Visual Corr. Matrix
+cormat %&gt;% as.data.frame %&gt;% rownames_to_column %&gt;% pivot_longer(-1) %&gt;% 
+    ggplot(aes(rowname, name, fill = value)) + geom_tile() + 
+    geom_text(aes(label = round(value, 2))) + xlab(&quot;&quot;) + ylab(&quot;&quot;) + 
+    coord_fixed()</code></pre>
+<p><img src="../../project/project1_files/figure-html/unnamed-chunk-10-1.png" width="672" style="display: block; margin: auto;" />
+-I had already created a correlation matrix in a part above. In this part, I created a visual of a correlation heatmap with numeric variables. From this it can be noted that Surface Area and Population are somewhat positively correlated, meaning that if one goes up so will the other. However, the values for access and population/surface area are so low, it can be said that there is no correlation.</p>
+<pre class="r"><code>### GRAPH 1
+Joined_Projectgraph &lt;- Joined_Project %&gt;% filter(`Population(thousands)` &lt;= 
+    1e+05)
+
+
+ggplot(data = Joined_Projectgraph, aes(x = Joined_Projectgraph$`Population(thousands)`, 
+    y = Joined_Projectgraph$access)) + geom_point(aes(color = Joined_Projectgraph$SurfaceArea)) + 
+    stat_smooth(method = &quot;gam&quot;, formula = y ~ s(x), size = 0.5, 
+        color = &quot;green&quot;) + xlab(&quot;Population&quot;) + scale_y_continuous(name = &quot;Access&quot;, 
+    breaks = c(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 
+        1)) + scale_x_continuous(name = &quot;Population(thousands)&quot;, 
+    breaks = c(0, 10000, 20000, 30000, 40000, 50000, 60000, 70000, 
+        80000, 90000, 1e+05)) + ggtitle(&quot;Population vs. Surface Area % Access to Sanitized water in 2017&quot;) + 
+    labs(color = &quot;Surface Area (km)&quot;)</code></pre>
+<p><img src="../../project/project1_files/figure-html/unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto;" />
+- In this graph, I wanted to better visualize smaller populations and how correlated they are with access and surface area. The plot accounted for countries that had populations less than 100,000. Then I tried to create a plot that would show a line to indicate the correlation with the smaller populations and access. Although there is somewhat of a positive correlation, it is not very strong. Most of the smaller populations do tend to indicate a value of .6 or higher when it comes to access to sanitized water. There is also a lot of variance in populations still.</p>
+<pre class="r"><code>### GRAPH 2
+ggplot(Joined_Project, aes(Joined_Project$access, Joined_Project$`Population(thousands)`, 
+    color = log10(SurfaceArea)), stat = &quot;summary&quot;) + geom_point(size = 0.8) + 
+    scale_y_continuous(&quot;Population(thousands)&quot;, limits = c(0, 
+        1e+05)) + scale_color_gradient(low = &quot;red&quot;, high = &quot;yellow&quot;) + 
+    labs(color = &quot;Log Surface Area (km)&quot;) + ggtitle(&quot;Access to Sanitized Water and Population of Countries with Surface Area of Countries in 2017&quot;) + 
+    scale_x_continuous(&quot;Access to Sanitized Water&quot;) + scale_size()</code></pre>
+<p><img src="../../project/project1_files/figure-html/unnamed-chunk-12-1.png" width="672" style="display: block; margin: auto;" />
+-From the plot above, we can see the access to sanitized water with the population of countries with the log of surface area for all countries provided in the data set in 2017. Based on this, as the access to sanitized water increased the population decreased. The correlation is not very strong though because a visible trend cannot be easily seen. I decided to log the surface area to get a better view of the correlation. There was a wide spread of data. Many of the countries with larger surface areas seem to have less access to sanitized water. However based on the data found above and this plot, we can assume there is not much correlation between these two variables. We can see that as the population increases the points get more yellow indicating a positive correlation between surface area and population.</p>
+</div>
+<div id="dimensionality-reduction" class="section level2">
+<h2>Dimensionality Reduction</h2>
+<pre class="r"><code>### PCA set up
+data_norm &lt;- Joined_Project %&gt;% select_if(is.numeric) %&gt;% na.omit %&gt;% 
+    scale
+data_pca &lt;- princomp(data_norm)
+summary(data_pca, loadings = T)</code></pre>
+<pre><code>## Importance of components:
+##                           Comp.1    Comp.2    Comp.3
+## Standard deviation     1.2324485 0.9989409 0.6823054
+## Proportion of Variance 0.5093057 0.3345959 0.1560984
+## Cumulative Proportion  0.5093057 0.8439016 1.0000000
+## 
+## Loadings:
+##                       Comp.1 Comp.2 Comp.3
+## SurfaceArea            0.707         0.704
+## Population(thousands)  0.707        -0.705
+## access                        0.996</code></pre>
+<p>-PCA shows which variables have the greatest variance within the data set. To start I scaled my data and selected the numeric variables. Then I ran princomp to actually run the PCA on the prepared variables and showed the summary. The loading for some of the components do not show up because they are so close to zero. The first principle component increases with increasing Surface Area and Population. The second principle component increases with greater access to sanitized water. Component 3 increases with greater Surface Area but decreases with Population.</p>
+<pre class="r"><code>### Eigen value and Scree Plot
+eigenval &lt;- data_pca$sdev^2
+varprop = round(eigenval/sum(eigenval), 2)
+ggplot() + geom_bar(aes(y = varprop, x = 1:3), stat = &quot;identity&quot;) + 
+    xlab(&quot;&quot;) + geom_path(aes(y = varprop, x = 1:3)) + geom_text(aes(x = 1:3, 
+    y = varprop, label = round(varprop, 2)), vjust = 1, col = &quot;white&quot;, 
+    size = 5) + scale_y_continuous(breaks = seq(0, 0.6, 0.2), 
+    labels = scales::percent) + scale_x_continuous(breaks = 1:3)</code></pre>
+<p><img src="../../project/project1_files/figure-html/unnamed-chunk-14-1.png" width="672" style="display: block; margin: auto;" />
+-I then plotted the eigenvalues to determine how many PCs to keep. The eigen value represents how much variance the data has in a certain direction. I initially decided to keep all 3 since there is no leveling off/flattening of the curve present. However, the total variance is greater than 80% after keeping just the first 2 so I will continue the next part with just 2.</p>
+<pre class="r"><code>### Kaisers Rule
+round(cumsum(eigenval)/sum(eigenval), 2)</code></pre>
+<pre><code>## Comp.1 Comp.2 Comp.3 
+##   0.51   0.84   1.00</code></pre>
+<pre class="r"><code>eigenval</code></pre>
+<pre><code>##    Comp.1    Comp.2    Comp.3 
+## 1.5189294 0.9978829 0.4655406</code></pre>
+<p>-Then I found the cumulative proportion of variance. Using Kaiser’s Rule, I would pick Comp 1 because the PC value for Comp 1 is the only one that is greater than 1.</p>
+<pre class="r"><code>dataframe &lt;- data.frame(PC1 = data_pca$scores[, 1], PC2 = data_pca$scores[, 
+    2], PC3 = data_pca$scores[, 3])
+ggplot(dataframe, aes(PC1, PC2)) + geom_point()</code></pre>
+<p><img src="../../project/project1_files/figure-html/unnamed-chunk-16-1.png" width="672" style="display: block; margin: auto;" />
+-Although I thought that using only PC1 would be sufficient, I had to pick PC1 and PC2 in order to create a better comparison. There are some outliars present in this plot towards the right side of the graph. The high values those points have for PC1 could indicate very high values for Surface Area and Population. The points with values greater than 1 for PC2 indicate very high values for access in certain areas. For the most part the cluster is around 0 on the x-axis and -2 to +1 on the y-axis showing a relatively normal distribution.</p>
+<pre class="r"><code>data_pca$loadings[1:2, 1:3] %&gt;% as.data.frame %&gt;% rownames_to_column %&gt;% 
+    ggplot() + geom_hline(aes(yintercept = 0), lty = 2) + geom_vline(aes(xintercept = 0), 
+    lty = 2) + ylab(&quot;PC2&quot;) + xlab(&quot;PC1&quot;) + geom_segment(aes(x = 0, 
+    y = 0, xend = Comp.1, yend = Comp.2), arrow = arrow(), col = &quot;red&quot;) + 
+    geom_label(aes(x = Comp.1 * 1.1, y = Comp.2 * 1.1, label = rowname))</code></pre>
+<p><img src="../../project/project1_files/figure-html/unnamed-chunk-17-1.png" width="672" style="display: block; margin: auto;" />
+-This graph shows the coefficients of each variable for the first component versus the coefficients for the second component. Based on this, Surface area and Population have the same amount of positive influence on PC1. However, they don’t seem to have that much of an influence on PC2, which in this case correlates with access. Overall, from interpreting the results in all the plots above, it is clear that neither surface Area or Population had a great influence on the Access people have to sanitized water in 2017, but there is an increase in Surface Area as Population increases. My overall hypothesis was incorrect and more data would be needed to prove otherwise.</p>
+<pre class="r"><code>knitr::opts_chunk$set(echo = TRUE, eval = TRUE, fig.align = &quot;center&quot;, 
+    warning = F, message = F, tidy = TRUE, tidy.opts = list(width.cutoff = 60), 
+    R.options = list(max.print = 100))</code></pre>
+<p>…</p>
+</div>
+
+            
+        <hr>         <div class="related-posts">
+                <h5>Related Posts</h5>
+                
+              </div> 
+            </div>
+          </div>
+
+   <hr>  <div class="disqus">
+  <div id="disqus_thread"></div>
+  <script type="text/javascript">
+
+    (function() {
+      
+      
+      if (window.location.hostname == "localhost")
+        return;
+
+      var disqus_shortname = '';
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  <a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div> 
+        </div>
+      </div>
+    </div>
+
+    
+    <footer>
+  <div id="footer">
+    <div class="container">
+      <p class="text-muted">&copy; All rights reserved. Powered by <a href="https://gohugo.io/">Hugo</a> and
+      <a href="http://www.github.com/nurlansu/hugo-sustain/">sustain</a> with ♥</p>
+    </div>
+  </div>
+</footer>
+<div class="footer"></div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="../../js/docs.min.js"></script>
+<script src="../../js/main.js"></script>
+
+<script src="../../js/ie10-viewport-bug-workaround.js"></script>
+
+
+    
+  </body>
+</html>
