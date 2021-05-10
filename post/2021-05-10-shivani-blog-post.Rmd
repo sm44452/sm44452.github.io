@@ -1,0 +1,25 @@
+---
+title: "Shivani Blog Post"
+author: ''
+date: '2021-05-10'
+slug: shivani-blog-post
+categories: []
+tags: []
+description: ''
+---
+
+Hi this is my very first blog post and I will be talking about something new I learned about R! Using the reticulate package in R will allow you to go back and forth with R interface using python. This makes it a super flexible and efficient feature! 
+
+```{R}
+
+```
+
+```{python} 
+
+```
+
+
+
+[Link to project 1](/project/project1/)
+
+[Link to google](https://www.google.com)
