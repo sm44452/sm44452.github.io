@@ -49,14 +49,5 @@ Introduction  0. Introduce your dataset and each of your variables (or just your
   -- </description>
     </item>
     
-    <item>
-      <title>Resume</title>
-      <link>/resume/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/resume/</guid>
-      <description>    </description>
-    </item>
-    
   </channel>
 </rss>
